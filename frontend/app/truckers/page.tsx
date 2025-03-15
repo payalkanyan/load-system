@@ -35,31 +35,32 @@ export default function TruckersPage() {
   // Function to place a bid
   const placeBid = (loadId: string, bidAmount: number) => {
     if (!bidAmount || bidAmount <= 0) {
-      alert('Enter a valid bid amount!');
+      alert("Enter a valid bid amount!");
       return;
     }
-
-    setLoads((prevLoads) =>
-      prevLoads.map((load) => {
-        if (load.id === loadId && (load.lowestBid === null || bidAmount < load.lowestBid)) {
-          return { ...load, lowestBid: bidAmount, winner: 'You' };
-        }
-        return load;
-      })
-    );
-
-    // Store new bid in local storage
-    localStorage.setItem(
-      'loads',
-      JSON.stringify(
-        loads.map((load) =>
-          load.id === loadId && (load.lowestBid === null || bidAmount < load.lowestBid)
-            ? { ...load, lowestBid: bidAmount, winner: 'You' }
-            : load
-        )
-      )
-    );
+  
+    setLoads((prevLoads) => {
+      const updatedLoads = prevLoads.map((load) =>
+        load.id === loadId && (load.lowestBid === null || bidAmount < load.lowestBid)
+          ? { ...load, lowestBid: bidAmount, winner: "You" }
+          : load
+      );
+  
+      localStorage.setItem("loads", JSON.stringify(updatedLoads));
+      return updatedLoads;
+    });
+  
+    // Show a pop-up notification
+    alert("Bid placed successfully!");
+  
+    // Mark the bid as placed for the user
+    setBids((prevBids) => ({
+      ...prevBids,
+      [loadId]: -1, // Use -1 as a flag to indicate bid placed
+    }));
   };
+  
+  
 
   // Filtering based on search and time
   const filteredLoads = loads.filter((load) => {
@@ -120,23 +121,32 @@ export default function TruckersPage() {
                     ✅ You Won the Load
                   </button>
                 ) : (
-                  <div className="mt-2 flex items-center space-x-2">
-                    <input
-                      type="number"
-                      placeholder="Enter bid amount"
-                      className="border p-2 w-24 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={bids[load.id] || ''}
-                      onChange={(e) =>
-                        setBids((prev) => ({ ...prev, [load.id]: parseFloat(e.target.value) || 0 }))
-                      }
-                    />
-                    <button
-                      className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all"
-                      onClick={() => placeBid(load.id, bids[load.id])}
-                    >
-                      💸 Place Bid
-                    </button>
-                  </div>
+                  <div className="mt-2 flex flex-col">
+  <div className="flex items-center space-x-2">
+    <input
+      type="number"
+      placeholder="Enter bid amount"
+      className="border p-2 w-24 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      value={bids[load.id] === -1 ? "" : bids[load.id] || ""}
+      onChange={(e) =>
+        setBids((prev) => ({ ...prev, [load.id]: parseFloat(e.target.value) || 0 }))
+      }
+      disabled={bids[load.id] === -1} // Disable input after placing bid
+    />
+    <button
+      className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all"
+      onClick={() => placeBid(load.id, bids[load.id])}
+      disabled={bids[load.id] === -1} // Disable button after placing bid
+    >
+      💸 Place Bid
+    </button>
+  </div>
+
+  {/* Show confirmation message after placing bid */}
+  {bids[load.id] === -1 && (
+    <p className="text-white mt-2">✅ You have placed the bid for this load.</p>
+  )}
+</div>
                 )}
               </li>
             ))}

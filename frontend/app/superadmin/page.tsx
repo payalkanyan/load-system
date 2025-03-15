@@ -77,7 +77,7 @@ export default function SuperAdmin() {
           {/* Display Shippers List */}
           <div className="list-container">
             <h2 className='title'>Shippers:</h2>
-            <ul>{shippers.map((s, i) => <li key={i}>🚢 {s}</li>)}</ul>
+            <ul className = 'title'>{shippers.map((s, i) => <li key={i}>🚢 {s}</li>)}</ul>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export default function SuperAdmin() {
           {/* Display Truckers List UNDER the trucker form */}
           <div className="list-container">
             <h2 className='title'>Truckers:</h2>
-            <ul>
+            <ul className='title'>
               {truckers.map((t, i) => (
                 <li key={i}>🚛 {t.name} {t.eligible ? '✅ Eligible' : '❌ Not Eligible'}</li>
               ))}

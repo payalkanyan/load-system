@@ -8,6 +8,16 @@ Additionally, strict **eligibility criteria** for truckers help maintain securit
 
 ---
 
+## 📽️ Demo Video
+
+Watch the demo of the Truck Load Bidding App in action:
+
+[![Watch the Video](./assets/image.png)](https://www.loom.com/share/939d4b529a8c492bb81fd12d9c7f3a95?sid=82526de3-e651-43a2-aa72-013db09a92ea)
+
+🔗 [Click here to watch the video](https://www.loom.com/share/939d4b529a8c492bb81fd12d9c7f3a95?sid=82526de3-e651-43a2-aa72-013db09a92ea)
+
+
+
 ## **Features**  
 
 ### **1. Load Posting System**  
